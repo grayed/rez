@@ -1,0 +1,71 @@
+.\" Copyright (c) 2022 Vadim Zhukov <zhuk@openbsd.org>
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd $Mdocdate$
+.Dt REZ 1
+.Os
+.Sh NAME
+.Nm rez
+.Nd calculate material cutting
+.Sh SYNOPSIS
+.Nm rez
+.Op Fl adq
+.Ar have
+.Ar want
+.Op Ar cut_loss
+.Sh DESCRIPTION
+The
+.Nm
+utility finds best way to cut materials of given length from
+.Ar have
+such way that all
+.Ar want
+items will be created, losing minimum of materials.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl a
+Output all found variants, and not only the best one.
+Variants will be delimited by double dash line
+.Sq -- .
+This flag is incompatible with
+.Fl q
+one.
+.It Fl d
+Enable debugging output.
+More
+.Fl d
+options will give more verbose output.
+.It Fl q
+Output first variant found, even if it's not the best one.
+The algorithm
+.Nm
+uses should give best or nearly-the-best variant anyway,
+and using this option can save a lot of time.
+This flag is incompatible with
+.Fl a
+one.
+.El
+.Sh EXAMPLES
+This will read list of available materials from file `have.txt`
+and list of needed parts from file `want.txt`.
+Each cut would take 5 units from available material.
+.Bd -ragged -offset indent
+.Nm
+have.txt want.txt 5
+.Ed
+.Sh AUTHORS
+.An Vadim Zhukov Aq Mt zhuk@openbsd.org
+.Sh CAVEATS
+Only unsigned long (as in C) integer values are supported.
